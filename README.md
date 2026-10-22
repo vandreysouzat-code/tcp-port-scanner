@@ -1,6 +1,6 @@
 # TCP Port Scanner v2.0.0
 
-Scanner TCP educacional em Python com verificações HTTP/TLS e relatórios HTML, JSON e CSV.
+Scanner TCP em Python com verificações HTTP/TLS e relatórios HTML, JSON e CSV.
 
 ## Recursos
 - Portas individuais, listas e intervalos TCP.
