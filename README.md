@@ -1,49 +1,120 @@
-# TCP Port Scanner v2.0.0
+# TCP Port Scanner v2.1.0
 
-Scanner TCP em Python com verificações HTTP/TLS e relatórios HTML, JSON e CSV.
+Scanner TCP escrito em Python para reconhecimento de portas e verificações básicas de HTTP/TLS. Gera relatórios HTML, JSON e CSV.
 
 ## Recursos
-- Portas individuais, listas e intervalos TCP.
-- Varredura concorrente com limites configuráveis.
-- Estados: aberta, fechada, sem resposta e erro.
-- Verificação de certificado TLS, validade e expiração próxima.
-- Verificações básicas de redirecionamento HTTP/HTTPS e cabeçalhos HTTP.
-- Sinais de possível exposição de serviços sensíveis, com evidências e recomendações.
-- Relatórios HTML, JSON e CSV.
-- Sem dependências externas.
+
+- Varredura TCP concorrente de portas individuais, listas e intervalos.
+- Identificação básica de serviços por porta.
+- Verificações básicas de certificados TLS, redirecionamentos e cabeçalhos HTTP.
+- Saída de terminal resumida.
+- Relatórios detalhados em HTML, JSON e CSV.
+- Sem dependências externas de execução.
 
 ## Requisitos
-Python 3.10+.
 
-## Uso
-```bash
-python3 scanner.py example.com
-python3 scanner.py example.com --ports 22,80,443
-python3 scanner.py example.com --ports 1-1024 --timeout 1.5 --workers 64
-python3 scanner.py example.com --out reports/example
-python3 scanner.py example.com --no-web-checks
-```
+- Python 3.10 ou superior.
+- `pipx` para instalar o comando globalmente, ou Git para clonar o projeto.
 
-O padrão verifica portas comuns para manter a execução mais rápida. `--out` define o prefixo dos três relatórios.
+## Instalação recomendada: pipx
 
-## Interpretação
-- A severidade indica prioridade de revisão, não garantia de exploração.
-- Porta aberta não confirma vulnerabilidade nem identifica a versão real do serviço.
-- Cabeçalho ausente é um sinal de hardening, não prova isolada de falha.
-- HTTP 5xx não é automaticamente vulnerabilidade.
-- Timeout/sem resposta não prova que a porta esteja filtrada ou segura.
-- A análise web verifica somente a página raiz e não testa autenticação, lógica de negócio ou toda a aplicação.
+### Kali Linux / Debian
+
+Instale o pipx, se necessário:
+
+    sudo apt update
+    sudo apt install pipx git
+    pipx ensurepath
+
+Feche e reabra o terminal, se solicitado. Instale o scanner:
+
+    pipx install git+https://github.com/vandreysouzat-code/tcp-port-scanner.git
+
+Verifique a instalação:
+
+    tcp-scanner --help
+
+Para atualizar quando uma nova versão for publicada:
+
+    pipx upgrade tcp-port-scanner-vandreysouzat
+
+### Windows ou macOS
+
+Instale Python 3.10+ e pipx seguindo a documentação oficial:
+https://pipx.pypa.io/stable/installation/
+
+Depois, execute:
+
+    pipx install git+https://github.com/vandreysouzat-code/tcp-port-scanner.git
+
+Se o comando não for reconhecido, siga as instruções do pipx para adicionar os executáveis ao PATH e reabra o terminal.
+
+## Executar sem instalar o comando
+
+Com Python 3.10+ e Git instalados:
+
+    git clone https://github.com/vandreysouzat-code/tcp-port-scanner.git
+    cd tcp-port-scanner
+    python3 scanner.py --help
+
+No Windows, se `python3` não existir, tente `python scanner.py --help`.
+
+## Exemplos de uso
+
+Verificar as portas comuns de um domínio autorizado:
+
+    tcp-scanner example.com
+
+Verificar portas específicas:
+
+    tcp-scanner example.com --ports 22,80,443
+
+Verificar um intervalo:
+
+    tcp-scanner example.com --ports 1-1024 --timeout 1.5 --workers 64
+
+Salvar relatórios com um prefixo personalizado:
+
+    tcp-scanner example.com --out reports/example
+
+Desativar verificações HTTP/TLS:
+
+    tcp-scanner example.com --no-web-checks
+
+Ao executar `python3 scanner.py`, use os mesmos argumentos dos exemplos, substituindo `tcp-scanner` por `python3 scanner.py`.
+
+## Relatórios
+
+O scanner gera três arquivos usando o prefixo definido por `--out`:
+
+- `.html`: relatório legível no navegador.
+- `.json`: dados estruturados da execução.
+- `.csv`: achados em formato tabular.
+
+O diretório de saída é criado automaticamente quando necessário.
+
+## Interpretar os resultados
+
+O scanner faz reconhecimento TCP e verificações web limitadas. Não é um substituto para uma auditoria completa.
+
+- Uma porta aberta não prova a existência de uma vulnerabilidade.
+- Um cabeçalho HTTP ausente não comprova, isoladamente, uma falha explorável.
+- Uma resposta HTTP 5xx não é automaticamente uma vulnerabilidade.
+- A análise web verifica a página raiz e não avalia toda a aplicação.
+- Resultados não confirmados não devem ser tratados como vulnerabilidades comprovadas.
+- O scanner não garante detectar todas as vulnerabilidades.
 
 ## Uso responsável
-Execute apenas em sistemas próprios ou com autorização explícita. Respeite o escopo e os limites do programa de testes.
+
+Use somente em sistemas próprios ou para os quais você tenha autorização explícita. Respeite o escopo, as regras e os limites do programa de segurança aplicável.
+
+## Testes de desenvolvimento
+
+No diretório do projeto:
+
+    python3 -m py_compile scanner.py
+    python3 -m unittest -v test_scanner
 
 ## Licença
-MIT
 
-## Teste funcional local
-
-O scanner foi testado em `127.0.0.1` com um servidor HTTP temporário
-na porta TCP 8000. A ferramenta detectou a porta como aberta e gerou
-os relatórios HTML, JSON e CSV. O teste validou a detecção básica de
-conectividade TCP em ambiente local; não representa uma auditoria
-completa de segurança.
+MIT. Consulte o arquivo [LICENSE](LICENSE).
