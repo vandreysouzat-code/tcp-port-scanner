@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcp-port-scanner-vandreysouzat"
+version = "2.0.0"
+description = "TCP scanner com verificações HTTP e TLS"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{name = "Victor Andrey"}]
+
+[project.scripts]
+tcp-scanner = "scanner:main"
+
+[tool.setuptools]
+py-modules = ["scanner"]
