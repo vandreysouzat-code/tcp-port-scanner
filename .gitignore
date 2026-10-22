@@ -3,3 +3,13 @@ __pycache__/
 scan-report.*
 reports/
 .venv/
+
+# Arquivos gerados durante desenvolvimento
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.egg-info/
+*.backup
+*.backup-*
+*.pre-v2-*

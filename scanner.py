@@ -251,16 +251,18 @@ def main():
     for item in results:
         if item["state"]=="open":
             print(f"[ABERTA] TCP/{item['port']} — {item['service']} ({item.get('response_ms','?')} ms)")
+    confirmed = [
+        f for f in findings
+        if f.get("confidence") == "confirmed"
+        and f.get("severity") in ("HIGH", "MEDIUM", "LOW")
+    ]
     print(f"\nPortas abertas: {report['summary']['open_ports']}")
-    print(f"Achados para revisão: {report['summary']['findings']} "
-          f"(alto: {report['summary']['high']}, médio: {report['summary']['medium']}, baixo: {report['summary']['low']})")
-    for f in findings:
+    print(f"Vulnerabilidades confirmadas: {len(confirmed)}")
+    for f in confirmed:
         print(f"[{f['severity']}] {f['title']} — {f['location']}")
-        print(f"  Evidência: {f['evidence']}\n  Ação: {f['recommendation']}")
-    print("\nRelatórios gerados:")
+    print("\nRelatórios detalhados gerados:")
     for ext in (".html",".json",".csv"):
         print(f"  {prefix.with_suffix(ext)}")
-    print("Lembrete: valide manualmente os achados.")
     return 0
 
 if __name__ == "__main__":
