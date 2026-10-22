@@ -39,3 +39,11 @@ Execute apenas em sistemas próprios ou com autorização explícita. Respeite o
 
 ## Licença
 MIT
+
+## Teste funcional local
+
+O scanner foi testado em `127.0.0.1` com um servidor HTTP temporário
+na porta TCP 8000. A ferramenta detectou a porta como aberta e gerou
+os relatórios HTML, JSON e CSV. O teste validou a detecção básica de
+conectividade TCP em ambiente local; não representa uma auditoria
+completa de segurança.
