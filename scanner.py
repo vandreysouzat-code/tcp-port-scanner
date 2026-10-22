@@ -15,7 +15,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
-VERSION = "2.0.0"
+VERSION = "2.1.0"
 DEFAULT_PORTS = "21,22,23,25,53,80,110,111,135,139,143,443,445,465,587,993,995,1433,1521,3306,3389,5432,5900,6379,8080,8443,9200,27017"
 SERVICES = {
     21:"FTP",22:"SSH",23:"Telnet",25:"SMTP",53:"DNS",80:"HTTP",
@@ -260,9 +260,6 @@ def main():
     print(f"Vulnerabilidades confirmadas: {len(confirmed)}")
     for f in confirmed:
         print(f"[{f['severity']}] {f['title']} — {f['location']}")
-    print("\nRelatórios detalhados gerados:")
-    for ext in (".html",".json",".csv"):
-        print(f"  {prefix.with_suffix(ext)}")
     return 0
 
 if __name__ == "__main__":
