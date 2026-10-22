@@ -1,47 +1,41 @@
-# TCP Port Scanner
+# TCP Port Scanner v2.0.0
 
-Scanner de portas TCP desenvolvido em Python como projeto educacional durante meus estudos de programação e cibersegurança no curso Hackers do Bem.
+Scanner TCP educacional em Python com verificações HTTP/TLS e relatórios HTML, JSON e CSV.
 
-## Funcionalidades
-
-- Verificação de portas TCP.
-- Aceita IP ou domínio como alvo.
-- Recebe portas como argumentos pelo terminal.
-- Valida os números das portas.
-- Trata erros de conexão e interrupção com Ctrl+C.
-- Utiliza apenas bibliotecas nativas: `socket` e `sys`.
+## Recursos
+- Portas individuais, listas e intervalos TCP.
+- Varredura concorrente com limites configuráveis.
+- Estados: aberta, fechada, sem resposta e erro.
+- Verificação de certificado TLS, validade e expiração próxima.
+- Verificações básicas de redirecionamento HTTP/HTTPS e cabeçalhos HTTP.
+- Sinais de possível exposição de serviços sensíveis, com evidências e recomendações.
+- Relatórios HTML, JSON e CSV.
+- Sem dependências externas.
 
 ## Requisitos
+Python 3.10+.
 
-- Python 3
-- Nenhuma dependência externa.
-
-## Como executar
-
+## Uso
 ```bash
-python3 scanner.py <alvo> <porta1> [porta2 ...]
+python3 scanner.py example.com
+python3 scanner.py example.com --ports 22,80,443
+python3 scanner.py example.com --ports 1-1024 --timeout 1.5 --workers 64
+python3 scanner.py example.com --out reports/example
+python3 scanner.py example.com --no-web-checks
 ```
 
-Exemplo:
+O padrão verifica portas comuns para manter a execução mais rápida. `--out` define o prefixo dos três relatórios.
 
-```bash
-python3 scanner.py scanme.nmap.org 22 80 443
-```
-
-## Conceitos praticados
-
-- Variáveis e listas.
-- Funções e estruturas condicionais.
-- Argumentos de linha de comando.
-- Conexões TCP com `socket`.
-- Tratamento de exceções.
+## Interpretação
+- A severidade indica prioridade de revisão, não garantia de exploração.
+- Porta aberta não confirma vulnerabilidade nem identifica a versão real do serviço.
+- Cabeçalho ausente é um sinal de hardening, não prova isolada de falha.
+- HTTP 5xx não é automaticamente vulnerabilidade.
+- Timeout/sem resposta não prova que a porta esteja filtrada ou segura.
+- A análise web verifica somente a página raiz e não testa autenticação, lógica de negócio ou toda a aplicação.
 
 ## Uso responsável
+Execute apenas em sistemas próprios ou com autorização explícita. Respeite o escopo e os limites do programa de testes.
 
-Utilize esta ferramenta somente em sistemas próprios, laboratórios autorizados ou alvos cujo teste seja permitido. Respeite as regras de cada programa de segurança.
-
-## Tecnologias
-
-- Python 3
-- TCP/IP
-- Linux
+## Licença
+MIT
